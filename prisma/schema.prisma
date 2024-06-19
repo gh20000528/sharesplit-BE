@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  username String @unique
+  email String @unique
+  password String
+  profilePicture String?
+  createdAt DateTime @default(now())
+  googleId String? @unique
+  friendships Friendships[] @relation("UserFriendships")
+  friends Friendships[] @relation("UserFriends")
+  userGroups     UserGroup[]    @relation("UserGroup")
+  sendRequests FriendRequest[] @relation("SendRequest")
+  receivedRequests FriendRequest[] @relation("ReceivedRequests")
+}
+
+model Friendships {
+   userId Int
+   friendId Int
+   status String @default("pending")
+   createdAt DateTime @default(now())
+
+   User User @relation("UserFriendships", fields: [userId], references: [id])
+   Friend User @relation("UserFriends", fields: [friendId], references: [id])
+
+   @@id([userId, friendId])
+   @@unique([userId, friendId])
+}
+
+model FriendRequest {
+  id Int @id @default(autoincrement())
+  senderId Int 
+  receiverId Int
+  status String @default("pending")
+  createdAt DateTime @default(now())
+
+  sender User @relation("SendRequest", fields: [senderId], references: [id])
+  receiver User @relation("ReceivedRequests", fields: [receiverId], references: [id])
+
+  @@unique([senderId, receiverId])
+}
+
+model Group {
+  id Int @id @default(autoincrement())
+  name String
+  deleted Boolean
+  createUserId Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  userGroup UserGroup[] @relation("GroupUser")
+}
+
+model UserGroup {
+  id Int @id @default(autoincrement())
+  userId Int 
+  groupId Int
+  joinAt DateTime @default(now())
+
+  user User @relation("UserGroup",fields: [userId], references: [id])
+  group Group @relation("GroupUser", fields: [groupId], references: [id])
+
+  @@unique([userId, groupId])
+}
+
+model Accounts {
+  id Int @id @default(autoincrement())
+}
