@@ -66,3 +66,4 @@ const notifications = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.notifications = notifications;
+//# sourceMappingURL=notifcontroller.js.map

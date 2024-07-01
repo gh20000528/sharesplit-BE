@@ -17,3 +17,4 @@ class NotifRoute {
     }
 }
 exports.NotifRoute = NotifRoute;
+//# sourceMappingURL=notifroute.js.map

@@ -21,3 +21,4 @@ class GroupRoute {
     }
 }
 exports.GroupRoute = GroupRoute;
+//# sourceMappingURL=groupRoute.js.map

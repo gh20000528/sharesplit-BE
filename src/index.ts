@@ -10,6 +10,7 @@ import { FriendRoute } from './routes/friendRoute';
 import { NotifRoute } from './routes/notifroute';
 import http from 'http';
 import {Server as SocketIOServer} from 'socket.io';
+import { AccountRoute } from './routes/accountRoute';
 
 class Server {
     app: express.Express = express();
@@ -49,11 +50,13 @@ class Server {
         const userRoute = new UserRoute();
         const groupRoute = new GroupRoute();
         const friendRoute = new FriendRoute();
-        const notifRoute = new NotifRoute()
+        const notifRoute = new NotifRoute();
+        const accountRoute = new AccountRoute();
         this.app.use('/', userRoute.router)
         this.app.use('/api/group', groupRoute.router)
         this.app.use('/api/friend', friendRoute.router)
         this.app.use('/api/notif', notifRoute.router)
+        this.app.use('/api/account', accountRoute.router)
     }
 
     private setUpSocket(): void {

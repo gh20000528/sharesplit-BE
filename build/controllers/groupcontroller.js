@@ -145,3 +145,4 @@ const joinUsre = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.joinUsre = joinUsre;
+//# sourceMappingURL=groupcontroller.js.map

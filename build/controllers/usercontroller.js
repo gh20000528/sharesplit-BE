@@ -54,3 +54,4 @@ const getUserProfile = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.getUserProfile = getUserProfile;
+//# sourceMappingURL=usercontroller.js.map

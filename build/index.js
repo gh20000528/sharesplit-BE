@@ -15,6 +15,7 @@ const friendRoute_1 = require("./routes/friendRoute");
 const notifroute_1 = require("./routes/notifroute");
 const http_1 = __importDefault(require("http"));
 const socket_io_1 = require("socket.io");
+const accountRoute_1 = require("./routes/accountRoute");
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -49,10 +50,12 @@ class Server {
         const groupRoute = new groupRoute_1.GroupRoute();
         const friendRoute = new friendRoute_1.FriendRoute();
         const notifRoute = new notifroute_1.NotifRoute();
+        const accountRoute = new accountRoute_1.AccountRoute();
         this.app.use('/', userRoute.router);
         this.app.use('/api/group', groupRoute.router);
         this.app.use('/api/friend', friendRoute.router);
         this.app.use('/api/notif', notifRoute.router);
+        this.app.use('/api/account', accountRoute.router);
     }
     setUpSocket() {
         const client = new Map();
@@ -82,3 +85,4 @@ class Server {
     }
 }
 new Server().start();
+//# sourceMappingURL=index.js.map

@@ -194,3 +194,4 @@ const acceptFriendRequest = (req, res) => __awaiter(void 0, void 0, void 0, func
     }
 });
 exports.acceptFriendRequest = acceptFriendRequest;
+//# sourceMappingURL=friendcontroller.js.map

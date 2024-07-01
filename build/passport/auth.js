@@ -79,3 +79,4 @@ passport_1.default.use(new passport_jwt_1.Strategy(jwtOption, (jw_payload, done)
     }
 })));
 exports.default = passport_1.default;
+//# sourceMappingURL=auth.js.map

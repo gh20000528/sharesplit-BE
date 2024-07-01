@@ -17,3 +17,4 @@ class FriendRoute {
     }
 }
 exports.FriendRoute = FriendRoute;
+//# sourceMappingURL=friendRoute.js.map

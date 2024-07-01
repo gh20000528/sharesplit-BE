@@ -64,6 +64,7 @@ model Group {
   updatedAt DateTime @default(now())
 
   userGroup UserGroup[] @relation("GroupUser")
+  accounts GroupAccounts[]
 }
 
 model UserGroup {
@@ -78,6 +79,19 @@ model UserGroup {
   @@unique([userId, groupId])
 }
 
-model Accounts {
+model GroupAccounts {
   id Int @id @default(autoincrement())
+  title String
+  price Float
+  joinUser String
+  createBy String
+  createdAt DateTime @default(now())
+  updatedAt   DateTime @default(now())
+  groupId Int
+
+  group Group @relation(fields: [groupId], references: [id])
+
+  @@map("group_accounts")
+
+
 }
