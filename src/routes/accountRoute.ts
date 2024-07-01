@@ -10,7 +10,7 @@ export class AccountRoute {
     }
 
     public initRoutes() {
-        this.router.get('/accountList', acceptedList)
+        this.router.post('/accountList', acceptedList)
         this.router.post('/addAccount', addAccount)
         this.router.post('/updateAccount', upadteAccount)
         this.router.delete('softAccount', softAccount)

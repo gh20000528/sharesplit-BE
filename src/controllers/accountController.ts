@@ -23,10 +23,47 @@ export const acceptedList = async (req: Request, res: Response) => {
         const { groupId } = req.body
 
         const account = await prisma.groupAccounts.findMany({
-            where:{ groupId },
+            where:{ groupId: Number(groupId) },
         })
 
-        return res.status(ResponseStatus.success).json({ data: account })
+        const accountWithUserInfo = await Promise.all(account.map(async (a) => {
+            const createByUser = await prisma.user.findFirst({
+                where: {id: Number(a.createBy)},
+                select:{
+                    username: true,
+                    profilePicture: true
+                }
+            })
+
+            const joinUserIds = JSON.parse(a.joinUser)
+            const joinUsers = await Promise.all(joinUserIds.map(async (u: number) => {
+                return await prisma.user.findUnique({
+                    where:{ id: u },
+                    select: {
+                        username: true,
+                        profilePicture: true
+                    }
+                })
+            }))
+
+
+            const accountInfo = {
+                id: a.id,
+                title: a.title,
+                price: a.price,
+                joiUser: joinUsers,
+                createBy: createByUser,
+                groupId: a.groupId,
+                createdAt: a.createdAt
+            }
+
+            return accountInfo
+
+        }))
+
+        console.log(accountWithUserInfo);
+
+        return res.status(ResponseStatus.success).json({ data: accountWithUserInfo })
     } catch (error) { 
         res.status(ResponseStatus.error).json({ message:`account list api error: ${error}` })
     }

@@ -9,7 +9,7 @@ class AccountRoute {
         this.initRoutes();
     }
     initRoutes() {
-        this.router.get('/accountList', accountController_1.acceptedList);
+        this.router.post('/accountList', accountController_1.acceptedList);
         this.router.post('/addAccount', accountController_1.addAccount);
         this.router.post('/updateAccount', accountController_1.upadteAccount);
         this.router.delete('softAccount', accountController_1.softAccount);

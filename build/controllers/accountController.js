@@ -23,9 +23,39 @@ const acceptedList = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     try {
         const { groupId } = req.body;
         const account = yield prisma.groupAccounts.findMany({
-            where: { groupId },
+            where: { groupId: Number(groupId) },
         });
-        return res.status(ResponseStatus.success).json({ data: account });
+        const accountWithUserInfo = yield Promise.all(account.map((a) => __awaiter(void 0, void 0, void 0, function* () {
+            const createByUser = yield prisma.user.findFirst({
+                where: { id: Number(a.createBy) },
+                select: {
+                    username: true,
+                    profilePicture: true
+                }
+            });
+            const joinUserIds = JSON.parse(a.joinUser);
+            const joinUsers = yield Promise.all(joinUserIds.map((u) => __awaiter(void 0, void 0, void 0, function* () {
+                return yield prisma.user.findUnique({
+                    where: { id: u },
+                    select: {
+                        username: true,
+                        profilePicture: true
+                    }
+                });
+            })));
+            const accountInfo = {
+                id: a.id,
+                title: a.title,
+                price: a.price,
+                joiUser: joinUsers,
+                createBy: createByUser,
+                groupId: a.groupId,
+                createdAt: a.createdAt
+            };
+            return accountInfo;
+        })));
+        console.log(accountWithUserInfo);
+        return res.status(ResponseStatus.success).json({ data: accountWithUserInfo });
     }
     catch (error) {
         res.status(ResponseStatus.error).json({ message: `account list api error: ${error}` });
